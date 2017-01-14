@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copy this template file as Settings.xml and replace the 
+    placeholders with your Azure access information -->
+<InfrastructureSettings xmlns="urn:engine">
+  <ServiceBus>
+    <ServiceUriScheme>sb</ServiceUriScheme>
+    <ServiceNamespace>[YOUR_NAMESPACE]</ServiceNamespace>
+    <ServicePath></ServicePath>
+    <TokenIssuer>owner</TokenIssuer>
+    <TokenAccessKey>[YOUR_TOKEN_ACCESS_KEY]</TokenAccessKey>
+    <ConnectionString>Endpoint=sb://asuslaptop/ServiceBusDefaultNamespace;StsEndpoint=https://asuslaptop:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355;WindowsUsername=KONSTANTINOS;WindowsPassword=vafis200974;WindowsDomain=asuslaptop</ConnectionString>
+    <Topics>
+      <Topic Path="Engine/TaxiVehicleEvents" IsEventBus="true">
+        <Subscription Name="log" RequiresSession="false"/>
+        <Subscription Name="Engine.Booking.TaxiVehicleViewModelGenerator" RequiresSession="true" SqlFilter="TypeName IN ('TaxiVehicleGotOnlined','TaxiVehicleGotOffLined')"/>
+      </Topic>
+    </Topics>
+  </ServiceBus>
+  <EventSourcing>
+    <!-- Use a valid Windows Azure storage account, as the development storage emulator does not support entity projections, which we are using in the Event Store -->
+    <ConnectionString>DefaultEndpointsProtocol=https;AccountName=[YOUR_ACCOUNT_NAME];AccountKey=[YOUR_ACCOUNT_KEY]</ConnectionString>
+    <!-- Table name in Windows Azure has restrictions: Only Alphanumeric Characters, Case-Insensitive, 3 to 63 Characters, May Not Begin With a Numeric Character -->
+    <OrdersTableName>ConferenceEventStoreOrders</OrdersTableName>
+    <SeatsAvailabilityTableName>ConferenceEventStoreSeats</SeatsAvailabilityTableName>
+  </EventSourcing>
+  <MessageLog>
+    <ConnectionString>DefaultEndpointsProtocol=https;AccountName=[YOUR_ACCOUNT_NAME];AccountKey=[YOUR_ACCOUNT_KEY]</ConnectionString>
+    <!-- Table name in Windows Azure has restrictions: Only Alphanumeric Characters, Case-Insensitive, 3 to 63 Characters, May Not Begin With a Numeric Character -->
+    <TableName>ConferenceMessageLog</TableName>
+  </MessageLog>
+  <BlobStorage>
+    <ConnectionString>DefaultEndpointsProtocol=https;AccountName=[YOUR_ACCOUNT_NAME];AccountKey=[YOUR_ACCOUNT_KEY]</ConnectionString>
+    <!-- Container name in Windows Azure has restrictions: Only Lower-case Alphanumeric Characters and Dashes, 3 to 63 Characters, May Not Begin a Dash, May Not Contain Two Consecutive Dashes -->
+    <RootContainerName>conference-read-model</RootContainerName>
+  </BlobStorage>
+</InfrastructureSettings>
